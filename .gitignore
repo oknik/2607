@@ -1,0 +1,65 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual Environment
+.venv/
+venv/
+env/
+ENV/
+
+# =========================
+# Deep Learning
+# =========================
+
+# Dataset
+data_content/
+
+# Model checkpoints
+checkpoints/
+checkpoint/
+weights/
+weight/
+models/
+*.pth
+*.pt
+*.ckpt
+*.onnx
+
+# TensorBoard
+runs/
+logs/
+tensorboard/
+
+# Training outputs
+output/
+outputs/
+results/
+experiments/
+exp/
+work_dirs/
+
+# Cache
+.cache/
+.pytest_cache/
+.mypy_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.log
