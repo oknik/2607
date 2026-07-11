@@ -24,7 +24,7 @@ checkpoints/
 checkpoint/
 weights/
 weight/
-models/
+trained_models/
 *.pth
 *.pt
 *.ckpt
