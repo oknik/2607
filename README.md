@@ -80,3 +80,31 @@ outputs/
 - `sensitivity`
 - `confusion_matrix`
 - `per_class`
+
+## Standalone Test
+
+After training, you can test checkpoints again without retraining:
+
+```bash
+python test_vit.py --method vit_direct --checkpoint-dir outputs/vit_direct/20260711_153000 --fold all --gpu 0
+```
+
+Test one fold only:
+
+```bash
+python test_vit.py --method vit_direct --checkpoint-dir outputs/vit_direct/20260711_153000 --fold 1 --gpu 0
+```
+
+Two-stage test:
+
+```bash
+python test_vit.py --method vit_two_stage --checkpoint-dir outputs/vit_two_stage/20260711_153000 --fold all --gpu 0
+```
+
+Standalone test outputs are saved under:
+
+```text
+outputs/vit_direct/20260711_153000/standalone_test_YYYYMMDD_HHMMSS/
+```
+
+`test_predictions.csv` includes logits and probabilities, which are useful for later sample selection and heatmap visualization.
