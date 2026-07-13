@@ -108,3 +108,37 @@ outputs/vit_direct/20260711_153000/standalone_test_YYYYMMDD_HHMMSS/
 ```
 
 `test_predictions.csv` includes logits and probabilities, which are useful for later sample selection and heatmap visualization.
+
+## Mamba Training And Test
+
+For the current small paired 224x224 dataset, the Mamba scripts default to `vim_tiny_patch16_224`, a tiny Vision Mamba-style backbone. If your installed `timm` does not include this model, upgrade `timm` or pass another installed Mamba/Vim model name with `--backbone`.
+
+Train both Mamba methods:
+
+```bash
+python train_mamba.py --method both --gpu 0
+```
+
+Train direct Mamba classification:
+
+```bash
+python train_mamba.py --method mamba_direct --gpu 0
+```
+
+Train two-stage Mamba classification:
+
+```bash
+python train_mamba.py --method mamba_two_stage --gpu 0
+```
+
+Standalone Mamba test:
+
+```bash
+python test_mamba.py --method mamba_direct --checkpoint-dir outputs/mamba_direct/20260713_153000 --fold all --gpu 0
+```
+
+Two-stage standalone Mamba test:
+
+```bash
+python test_mamba.py --method mamba_two_stage --checkpoint-dir outputs/mamba_two_stage/20260713_153000 --fold all --gpu 0
+```
