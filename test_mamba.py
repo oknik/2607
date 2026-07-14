@@ -48,6 +48,7 @@ def load_model(checkpoint_path: Path, num_classes: int, args, device):
         num_classes=num_classes,
         pretrained=False,
         share_backbone=not args.unshared_backbone,
+        image_size=args.image_size,
     ).to(device)
     checkpoint = torch.load(checkpoint_path, map_location=device)
     state_dict = checkpoint["model"] if isinstance(checkpoint, dict) and "model" in checkpoint else checkpoint

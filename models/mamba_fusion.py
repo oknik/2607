@@ -3,10 +3,7 @@ from __future__ import annotations
 import torch
 from torch import nn
 
-try:
-    import timm
-except ImportError as exc:  # pragma: no cover
-    raise ImportError("Please install dependencies with: pip install -r requirements.txt") from exc
+from .local_vim import create_vim_model
 
 
 class TwoStreamMamba(nn.Module):
@@ -19,12 +16,13 @@ class TwoStreamMamba(nn.Module):
         pretrained: bool = True,
         dropout: float = 0.2,
         share_backbone: bool = True,
+        image_size: int = 224,
     ) -> None:
         super().__init__()
         self.share_backbone = share_backbone
-        self.c_backbone = self._create_backbone(backbone, pretrained)
+        self.c_backbone = self._create_backbone(backbone, pretrained, image_size)
         feature_dim = self.c_backbone.num_features
-        self.g_backbone = self.c_backbone if share_backbone else self._create_backbone(backbone, pretrained)
+        self.g_backbone = self.c_backbone if share_backbone else self._create_backbone(backbone, pretrained, image_size)
         self.head = nn.Sequential(
             nn.LayerNorm(feature_dim * 2),
             nn.Dropout(dropout),
@@ -32,17 +30,8 @@ class TwoStreamMamba(nn.Module):
         )
 
     @staticmethod
-    def _create_backbone(backbone: str, pretrained: bool):
-        try:
-            return timm.create_model(backbone, pretrained=pretrained, num_classes=0, global_pool="avg")
-        except RuntimeError as exc:
-            candidates = timm.list_models("*mamba*") + timm.list_models("*vim*")
-            hint = ", ".join(candidates[:20]) if candidates else "no mamba/vim models found in your timm version"
-            raise RuntimeError(
-                f"Cannot create Mamba backbone '{backbone}'. "
-                f"Try upgrading timm or pass one of the available model names with --backbone. "
-                f"Available candidates: {hint}"
-            ) from exc
+    def _create_backbone(backbone: str, pretrained: bool, image_size: int):
+        return create_vim_model(backbone=backbone, num_classes=0, img_size=image_size, pretrained=pretrained)
 
     def forward(self, c_img: torch.Tensor, g_img: torch.Tensor) -> torch.Tensor:
         c_feat = self.c_backbone(c_img)

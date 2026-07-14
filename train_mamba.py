@@ -52,6 +52,7 @@ def build_model(args, num_classes: int, device):
         num_classes=num_classes,
         pretrained=not args.no_pretrained,
         share_backbone=not args.unshared_backbone,
+        image_size=args.image_size,
     ).to(device)
 
 

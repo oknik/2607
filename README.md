@@ -111,7 +111,7 @@ outputs/vit_direct/20260711_153000/standalone_test_YYYYMMDD_HHMMSS/
 
 ## Mamba Training And Test
 
-For the current small paired 224x224 dataset, the Mamba scripts default to `vim_tiny_patch16_224`, a tiny Vision Mamba-style backbone. If your installed `timm` does not include this model, upgrade `timm` or pass another installed Mamba/Vim model name with `--backbone`.
+For the current small paired 224x224 dataset, the Mamba scripts default to `vim_tiny_patch16_224`, a tiny local Vim-style backbone implemented in `models/local_vim.py`. It no longer calls `timm.create_model` for Vim. Available local backbones are `vim_tiny_patch16_224` and `vim_small_patch16_224`.
 
 Train both Mamba methods:
 
